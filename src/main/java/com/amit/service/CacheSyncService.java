@@ -29,14 +29,16 @@ public class CacheSyncService{
 	@Transactional(value = TxType.REQUIRES_NEW)
 	public User addCache(User user) {
 		user = userRepository.save(user);
-		cache.add(Long.toString(user.getUserId()), user, 5000L);
-		
+		cache.add(Long.toString(user.getUserId()), user);
 		
 		UserCacheLog<String, User> cacheLog = new UserCacheLog<>();
 		cacheLog.setUser(user);
 		userCacheLogRepo.save(cacheLog);
 		
-		System.out.println(cache.getAll());
+//		cache.getAll().forEach(cache -> {
+//    		System.out.println(cache.getUserId() + ", " + cache.getUserName() + ", " + cache.getRole());
+//    	});
+		
 		return user;
 	}
 

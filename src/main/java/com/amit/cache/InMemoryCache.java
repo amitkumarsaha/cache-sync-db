@@ -30,19 +30,37 @@ public class InMemoryCache<K, V> implements ICache<K, V>  {
         cleanerThread.setDaemon(true);
         cleanerThread.start();
     }
-
+    
     @Override
     public void add(K key, V value, long periodInMillis) {
+    	throw new UnsupportedOperationException("Method not longer available");
+    }
+
+//    @Override
+//    public void add(K key, V value, long periodInMillis) {
+//        if (key == null) {
+//            return;
+//        }
+//        if (value == null) {
+//            cache.remove(key);
+//        } else {
+//            long expiryTime = System.currentTimeMillis() + periodInMillis;
+//            SoftReference<V> reference = new SoftReference<>(value);
+//            cache.put(key, reference);
+//            cleaningUpQueue.put(new Cache<K, V>(key, reference, expiryTime));
+//        }
+//    }
+    
+    @Override
+    public void add(K key, V value) {
         if (key == null) {
             return;
         }
         if (value == null) {
             cache.remove(key);
         } else {
-            long expiryTime = System.currentTimeMillis() + periodInMillis;
             SoftReference<V> reference = new SoftReference<>(value);
             cache.put(key, reference);
-            cleaningUpQueue.put(new Cache<K, V>(key, reference, expiryTime));
         }
     }
 

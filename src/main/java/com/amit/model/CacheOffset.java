@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotEmpty;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -26,16 +25,14 @@ public class CacheOffset<K, V> implements Serializable{
 	@Column(name = "cache_offset_id")
 	private long cacheOffsetId;
 	
-	@NotEmpty
 	@Column(unique = true)
 	private String instanceId;
 	
-	@NotEmpty
-	@Column(name = "cache_log_id", insertable = false, updatable = false)
+	@Column(name = "cache_log_id", nullable = true)
 	private long cacheLogId;
 	
-	@ManyToOne(targetEntity = UserCacheLog.class)
-	@JoinColumn(name = "cache_log_id")
+	@ManyToOne(targetEntity = UserCacheLog.class, optional = true)
+	@JoinColumn(name = "cache_log_id", insertable = false, updatable = false)
 	private UserCacheLog<K, V> cacheLog;
 	
 	

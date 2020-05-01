@@ -9,6 +9,12 @@ public class Cache<K, V> implements Delayed {
 	private final K key;
     private final SoftReference<V> reference;
     private final long expiryTime;
+    
+    public Cache(K key, SoftReference<V> reference) {
+        this.key = key;
+        this.reference = reference;
+        this.expiryTime = -1;
+    }
 
     public Cache(K key, SoftReference<V> reference, long expiryTime) {
         this.key = key;

@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotEmpty;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -33,11 +32,11 @@ public class UserCacheLog<K, V> implements Serializable{
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-//	@Column(name = "cache_offset_id", insertable = false, updatable = false)
-//	private long cacheOffsetId;
+	@Column(name = "cache_offset_id")
+	private long cacheOffsetId;
 	
-	@OneToOne(targetEntity = CacheOffset.class)
-	@JoinColumn(name = "cache_offset_id", referencedColumnName = "cache_offset_id")
+	@OneToOne(targetEntity = CacheOffset.class, optional = true)
+	@JoinColumn(name = "cache_offset_id", referencedColumnName = "cache_offset_id", insertable = false, updatable = false)
 	private CacheOffset<K, V> cacheOffset;
 	
 }
