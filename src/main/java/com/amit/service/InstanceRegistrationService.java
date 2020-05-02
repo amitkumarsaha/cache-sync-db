@@ -15,7 +15,8 @@ import lombok.Getter;
 
 @Service
 public class InstanceRegistrationService{
-
+	
+	
 	@Getter
 	public String instanceId;
 	
@@ -29,8 +30,12 @@ public class InstanceRegistrationService{
         UUID uuid = UUID.randomUUID();
         this.instanceId = uuid.toString();
         
+        String port = contextRefreshed.getApplicationContext().getEnvironment().getProperty("server.port");
+//        int port = server.getWebServer().getPort();
+//        String id = server.getId();
+        
         cacheOffset = new CacheOffset<>();
-        cacheOffset.setInstanceId(instanceId);
+        cacheOffset.setInstanceId(instanceId+":"+port);
         userCacheOffsetRepo.save(cacheOffset);
     }
 }

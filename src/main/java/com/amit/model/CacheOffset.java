@@ -25,7 +25,7 @@ public class CacheOffset<K, V> implements Serializable{
 	@Column(name = "cache_offset_id", unique = true)
 	private Long cacheOffsetId;
 	
-	@Column(unique = true)
+	@Column(name = "instance_id")
 	private String instanceId;
 	
 	@Column(name = "cache_log_id")
