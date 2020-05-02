@@ -22,14 +22,14 @@ public class CacheOffset<K, V> implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "cache_offset_id")
-	private long cacheOffsetId;
+	@Column(name = "cache_offset_id", unique = true)
+	private Long cacheOffsetId;
 	
 	@Column(unique = true)
 	private String instanceId;
 	
-	@Column(name = "cache_log_id", nullable = true)
-	private long cacheLogId;
+	@Column(name = "cache_log_id")
+	private Long cacheLogId;
 	
 	@ManyToOne(targetEntity = UserCacheLog.class, optional = true)
 	@JoinColumn(name = "cache_log_id", insertable = false, updatable = false)

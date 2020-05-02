@@ -35,10 +35,6 @@ public class CacheSyncService{
 		cacheLog.setUser(user);
 		userCacheLogRepo.save(cacheLog);
 		
-//		cache.getAll().forEach(cache -> {
-//    		System.out.println(cache.getUserId() + ", " + cache.getUserName() + ", " + cache.getRole());
-//    	});
-		
 		return user;
 	}
 

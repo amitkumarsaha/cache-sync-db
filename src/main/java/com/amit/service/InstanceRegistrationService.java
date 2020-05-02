@@ -29,10 +29,8 @@ public class InstanceRegistrationService{
         UUID uuid = UUID.randomUUID();
         this.instanceId = uuid.toString();
         
-        
         cacheOffset = new CacheOffset<>();
         cacheOffset.setInstanceId(instanceId);
-//        cacheOffset.setCacheLogId(0L);
         userCacheOffsetRepo.save(cacheOffset);
     }
 }

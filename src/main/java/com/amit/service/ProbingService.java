@@ -34,20 +34,31 @@ public class ProbingService {
     	List<UserCacheLog<String, User>> userCacheLogs = null;
     	CacheOffset<String, User> cacheOffsetUser =userCacheOffsetRepo.findByInstanceId(insatanceMgr.getInstanceId());
     	if(null!=cacheOffsetUser) {
+    		
     		if(null != cacheOffsetUser.getCacheLog()) {
 	    		userCacheLogs = userCacheLogRepo.findAllByCacheLogIdGreaterThan(cacheOffsetUser.getCacheLog().getCacheLogId());
     		}
     		else {
     			userCacheLogs = userCacheLogRepo.findAll();
-    			UserCacheLog<String, User> cacheLog = userCacheLogs.stream()
-//    					.map(userCacheLog -> userCacheLog.getCacheLogId())
-    					.max(Comparator.comparingLong(UserCacheLog::getCacheLogId)).get();
-    			cacheOffsetUser.setCacheLog(cacheLog);
+    			
     		}
-    		userCacheLogs.stream().map(userCacheLog -> userCacheLog.getUser()).filter(user -> null!=user.getUserId())
-    		.forEach(user -> cache.add(Long.toString(user.getUserId()), user));
+    		
+    		if(null!= userCacheLogs && userCacheLogs.size()>0) {
+	    		UserCacheLog<String, User> cacheLog = userCacheLogs.stream()
+					.max(Comparator.comparingLong(UserCacheLog::getCacheLogId)).get();
+			
+	    		cacheOffsetUser.setCacheLogId(cacheLog.getCacheLogId());
+	    		userCacheOffsetRepo.save(cacheOffsetUser);
+	    		
+	    		userCacheLogs.stream().map(userCacheLog -> userCacheLog.getUser()).filter(user -> null!=user.getUserId())
+	    		.forEach(user -> {
+	    			System.out.println("New object to cache: "+user.getUserId()+", "+user.getUserName()+", "+user.getRole());
+	    			cache.add(Long.toString(user.getUserId()), user);
+	    		});
+    		}
     	}
     	
+    	System.out.println("##### Cache List ######");
     	cache.getAll().forEach(cache -> {
     		System.out.println(cache.getUserId() + ", " + cache.getUserName() + ", " + cache.getRole());
     	});
